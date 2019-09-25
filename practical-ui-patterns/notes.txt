@@ -1,0 +1,39 @@
+Book: Practical UI Patterns for Design Systems - Diana MacDonald (2019)
+
+    [ Chapter 1 ]
+        --> Maximize reuse by minimizing inconsistency
+        --> Design patterns let you reference existing proven solutions,
+            which means you have support for your decisions.
+        --> Pattern names are more useful when they describe the solution.
+        --> Design principles: https://www.interaction-design.org/literature/topics/design-principles
+        --> "The world is full of obvious things which nobody by any chance
+            ever observes.
+    
+    [ Chapter 2 ]
+        --> "The 7 Habits: Sharpenning The Saw": https://www.artofmanliness.com/articles/the-7-habits-sharpen-the-saw/
+        --> Sharpen your saw in preparation for the real work later.
+            
+            UI Patterns:
+            https://pttrns.com/
+            http://ui-patterns.com/patterns/
+            https://www.mobile-patterns.com/
+            https://material.io/design/guidelines-overview/#addition
+            https://tachyons.io/
+            https://adele.uxpin.com/
+
+            Visual Styles Inspiration: 
+            https://www.siteinspire.com
+            http://www.hoverstat.es/
+            https://dribbble.com/
+            https://www.awwwards.com/
+            http://awards.ixda.org/
+            https://thefwa.com/
+
+            UX Articles:
+            https://www.nngroup.com/articles/mental-models/
+        
+        --> Patterns:
+            Walkthrough - Step by Step (e.g: "Airbnb")
+            Playthrough - User learn by doing in a safe environment
+            Newsletter 
+            Validation Feedback
