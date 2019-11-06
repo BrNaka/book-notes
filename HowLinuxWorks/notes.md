@@ -60,9 +60,9 @@ H- ow to identify a device file? Look in the file permissions. If started with �
   3. FAT (msdos, vfat, umsdos): Microsoft systems.
   4. HFS+ (hfsplus): Macintosh systems.
 - Mounting: the process of attaching a filesystem. In order to mount a filesystem, you must know the following (“Mount a device on a mount point”)
-- The filesystem device.
-- The filesystem type.
-- The mount point.
+  - The filesystem device.
+  - The filesystem type.
+  - The mount point.
 - Filesystems UUID (Universal Unique Identifier) - Command ‘blkid’ shows uuid.
 
 <div align='center'> 
@@ -272,6 +272,6 @@ Three implementations: sys-V, systemd, Upstart.
 - *TCP wrappers*: Host control over the network services.
 - *Wireshark*: GUI for *'tcpdump'* command.
 - *Books*:
- - *Applied Cryptography: Protocols, Algorithms, and Source Code in C, 2nd edition by Bruce Schneier (Wiley, 1996)*
- - *SSH Mastery: OpenSSH, PuTTY, Tunnels and Keys by Michael W. Lucas (Tilted Windmill Press, 2012)*
- - *SSH, The Secure Shell, 2nd edition, by Daniel J. Barrett, Richard E. Silverman, and Robert G. Byrnes(O’Reilly, 2005)*
+    - *Applied Cryptography: Protocols, Algorithms, and Source Code in C, 2nd edition by Bruce Schneier (Wiley, 1996)*
+    - *SSH Mastery: OpenSSH, PuTTY, Tunnels and Keys by Michael W. Lucas (Tilted Windmill Press, 2012)*
+    - *SSH, The Secure Shell, 2nd edition, by Daniel J. Barrett, Richard E. Silverman, and Robert G. Byrnes(O’Reilly, 2005)*
