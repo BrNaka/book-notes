@@ -197,7 +197,7 @@ Three implementations: sys-V, systemd, Upstart.
 - Effective User Id (the actor), Real User Id (ruid) indicates who initiated the process (the owner).
 - PAM (Pluggable Authentication Modules) - A system of shared libraries for authentication.
 
-## Chapter 8 - A Closer Look At Processes and Resource Utilization
+### Chapter 8 - A Closer Look At Processes and Resource Utilization
 - Three basic kinds of hardware resources: CPU, memory and I/O.
 - atop, htop and top commands: It displays processes information like memory usage, CPU usage. 
 - lsof: list open files and the processes using them.
@@ -207,7 +207,7 @@ Three implementations: sys-V, systemd, Upstart.
     - The map is stored in data structures called Page Table.
     - Page fault: When a process wants to use a page, but it’s not ready (Minor and Major Page faults).
     
-## Chapter 9 - Understanding your Network and its Configuration
+### Chapter 9 - Understanding your Network and its Configuration
 - Functioning Network includes a full set of network layers called a network stack:
     - Application Layer: Hypertext-Transfer Protocol (HTTP), Secure Socket Layer (SSL) and FTP (File Transfer Protocol)
     - Transport Layer: Data integrity checking, source and destination ports. Transmission Control Protocol (TCP) and User Datagram Protocol (UDP).
@@ -259,7 +259,7 @@ Three implementations: sys-V, systemd, Upstart.
     - ARP cache maps IP addresses to MAC addresses (command ‘arp -n’)
 - You should’t use WEP if you’re serious about security.
 
-## Chapter 10 - Network Applications and Services
+### Chapter 10 - Network Applications and Services
 - *TCP services* are built upon simple, uninterrupted two-way data streams.
 - Some network servers: *httpd, apache, apache2, sshd (secure shell daemon), postifx, qmail, sendmail, cupsd, nfsd, mountsd*.
 - *SSH server*: Standard for remote access to a UNIX machine. *OpenSSH* is a popular free SSH implementation.
@@ -271,7 +271,110 @@ Three implementations: sys-V, systemd, Upstart.
 - *SSH version 1* has RSA keys and *SSH version 2* has RSA and DSA keys.
 - *TCP wrappers*: Host control over the network services.
 - *Wireshark*: GUI for *'tcpdump'* command.
+- *Nmap* (The Network Mapper): Scan ports. *If someone else controls the network that you want to scan with Nmap, ask for permission. Network admnistrators watch for port scans and usually disable access to machines that run them*.
+- Tips to system security:
+  - *Run as few services as possible*
+  - *Block as much as possible with firewall*
+  - *Track the services that you offer to the Internet*
+  - *Use 'long-term support' distribution releases for servers*
+  - *Don't give an account on your system to anyone who doesn't need one*
+  - *Avoid to install dubious binary packages*
+- Two types of vulnerabilities: *Direct attacks* and *clear-text password sniffing*
+- Security websites:
+  - http://www.sans.org/
+  - http://www.cert.org/
+  - http://www.insecure.org/
+- A process uses a *socket* to identify when and how it's talking to the network. *Sockets* are the interface that processes use to access the network through the kernel. It's also used to process inter-communication (IPC).
 - *Books*:
     - *Applied Cryptography: Protocols, Algorithms, and Source Code in C, 2nd edition by Bruce Schneier (Wiley, 1996)*
     - *SSH Mastery: OpenSSH, PuTTY, Tunnels and Keys by Michael W. Lucas (Tilted Windmill Press, 2012)*
     - *SSH, The Secure Shell, 2nd edition, by Daniel J. Barrett, Richard E. Silverman, and Robert G. Byrnes(O’Reilly, 2005)*
+    - *Implementing SSL/TLS Using Cryptography and PKI (Wiley, 2011)*
+    - *Unix Network Programming, Volume 1, 3rd edition, by W. Richard Stephens, Bill Fenner, and Andrew M. Rudoff (Addison-Wesley Professional, 2003)*
+    
+### Chapter 11 - Introduction to Shell Script
+- Shell scripts are useful to automate tasks. 
+- Quotes and Literals:
+```shell
+  # Double Quotes (prints: 00)
+  echo "$100"
+    
+  # Single Quotes - Literals (prints: $100)
+  echo '$100'
+```
+-Special Bourne shell variables:
+```shell
+  # Individual arguments: $1 $2 $3
+  echo First Argument: $1
+  echo Third Argument: $3
+  
+  # Print the number of arguments
+  echo $#
+  
+  # All arguments: $@
+  gs -q -dBATCH -dNOPAUSE -dSAFER -sOutputFile- -sDEVICE=pnmraw $@
+  
+  # Print script name
+  echo $0
+  
+  # Print shell pid
+  echo $$
+  
+  # Print the last process exit code
+  echo $?
+```
+- Conditionals (*if/then/else, case*):
+  - Understanding the exit codes:
+    1) *The shell runs the command after the if keyword and collects the exit code of that command.*
+    2) *If the exit code is 0, the shell executes the commands that follow the then keyword, stopping when it reaches an else or fi keyword*
+    3) *If the exit code is not 0 and there is an else clause, the shell runs the commands after the else keyword*
+    4) *The conditional ends at fi*
+  - The stuff following '*if*' is always a command ('[]' is a symlink to the *test* command) 
+```shell
+#!/bin/sh
+if [ "$1" = hi ]; then
+  echo 'The first argument was "hi"'
+else
+  echo -n 'The first argument was not "hi" --'
+  echo It was '"'$1'"'
+fi
+```
+- && and || Logical Contructs
+```shell
+  # If the command1 returns an exit code equal to 0, then command2 is executed
+  command1 && command2
+  
+  # If the command1 return an exit code different than 0, then command2 is executed
+  command1 || command2
+```
+- Testing Conditionals:
+```shell
+  # -f tests if the argument is a regular file and not a directory or special file
+  if [ -f file ]; then 
+    echo "Regular file"
+  fi
+```
+- Two kinds of loops in Bourne shell: *for* and *while*:
+  - *for* loop
+  ```shell
+  #!/bin/sh
+  for str in one two three; do
+    echo $str
+  done
+  ```
+- 'cat <<EOF': Redirect all lines that follow the standard input to cat. 
+- Important Shell Scripts Utilities:
+  - *basename*: Strip the extension from a filename or get rid of the directories in a full pathname
+  - *awk*: It's a programming language. 
+  ```shell
+    #!/bin/sh
+    
+    # Return a list o file sizes (prints the fifth field of ls output)
+    ls -l | awk '{print $5}'
+  ```
+  - *sed (stream editor)*
+  - *xargs*: When you have to run one command to a huge number of files (Alternative is the *-exec* option of *find*).
+  - *expr*: Arithmetic operation (It's slow)
+  - *exec*: The exec command is a built-in shell feature that replaces the current shell process with the program you name after exec.
+  
+### Chapter 12 - Moving files across the Network
