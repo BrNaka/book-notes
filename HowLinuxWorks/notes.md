@@ -4,7 +4,7 @@
 </div>
 
 <div align='center'> 
-  <img src="./images/capa.png" width="800px"> 
+  <img src="./images/capa.png" width="600px"> 
 </div>
 
 ### Chapter 1 - The Big Picture
@@ -258,3 +258,20 @@ Three implementations: sys-V, systemd, Upstart.
 - Address Resolution Protocol (ARP): Automatic system of looking up MAC addresses
     - ARP cache maps IP addresses to MAC addresses (command ‘arp -n’)
 - You should’t use WEP if you’re serious about security.
+
+## Chapter 10 - Network Applications and Services
+- *TCP services* are built upon simple, uninterrupted two-way data streams.
+- Some network servers: *httpd, apache, apache2, sshd (secure shell daemon), postifx, qmail, sendmail, cupsd, nfsd, mountsd*.
+- *SSH server*: Standard for remote access to a UNIX machine. *OpenSSH* is a popular free SSH implementation.
+  1) Encrypts passwords and all session data.
+  2) Tunnels other network connections (*Tunneling is the process of packaging and transporting one network connection using another one*).
+  3) Offer clients for nearly any operating system.
+  4) Uses keys for host authentication.
+- *sshd* server needs configuration -> *'/etc/ssh'* directory
+- *SSH version 1* has RSA keys and *SSH version 2* has RSA and DSA keys.
+- *TCP wrappers*: Host control over the network services.
+- *Wireshark*: GUI for *'tcpdump'* command.
+- *Books*:
+ - *Applied Cryptography: Protocols, Algorithms, and Source Code in C, 2nd edition by Bruce Schneier (Wiley, 1996)*
+ - *SSH Mastery: OpenSSH, PuTTY, Tunnels and Keys by Michael W. Lucas (Tilted Windmill Press, 2012)*
+ - *SSH, The Secure Shell, 2nd edition, by Daniel J. Barrett, Richard E. Silverman, and Robert G. Byrnes(O’Reilly, 2005)*
