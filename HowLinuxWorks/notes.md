@@ -378,3 +378,19 @@ fi
   - *exec*: The exec command is a built-in shell feature that replaces the current shell process with the program you name after exec.
   
 ### Chapter 12 - Moving files across the Network
+- It's possible to acces files in a remote machine using python:
+  - The command *python3 -m http.server* creates a server that listen on port 8000.
+<div align='center'> 
+  <img src="./images/image16.png" width="700px"> 
+</div>
+<br/>
+<div align='center'> 
+  <img src="./images/image17.png" width="700px"> 
+</div>
+
+### Chapter 15 - Development Tools
+- *C header files* are additional source code files that usually contain type and library function declarations (ex: *stdio.h*)
+- *C preprocessor (cpp)*: A program that the compiler runs on your source code before parsing the actual program. The preprocessor rewrites source code into a form that the compiler understands; it’s a tool for making source code easier to read (and for providing shortcuts).
+  - The C preprocessor doesn’t know anything about C syntax, variables, functions, and other elements. It understands only its own macros and directives.
+- *Static Library (suffix is '.a')*: The linker copies machine code from library into the executable.
+- *Shared Library (suffix is '.so')*: The system's loads the library's code into the process memory space only when necessary (*disavatages:* difficult management and a somewhat complicated linking procedure)
