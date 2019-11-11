@@ -42,6 +42,31 @@
   - Complexity deals with non-aligned input ('=' is added to ensure alignment).
   - Output is 1/3 bigger than input.
   - Base64 it's required by the specification. 
+- First release of SSL was SSLv2 (v1 was never release).
+    - After that, SSLv3 was release and then renamed to TLS 1.0 (*RFC2246*).
+    - TLS 1.1 was specified in *RFC 4346*.
+    - TLS 1.2 was specified in *RFC 5346*.
+- SSL is completely specified at the Network layer.
+- *OpenSSL* is the most popular open-source implementation of SSL.
 
-
-
+### Chapter 2 - Protecting Against Eavsdropppers with Symmetric Cryptography
+- There's no defense against a *brute force* attack.
+- HTTPS encrypts all traffic prior to transmission, and must subsequently be decrypted before processing.
+- Two categories of cryptographic algorithms: *Symmetric* and *Public* (Key management differs them).
+    - *Symmetric*: Same key is used to encrypt and decrypt.
+    - In both cases, the sender and the receiver must agree what the key is before they can perform any encrypted communication.
+- *Caesar Cipher*: Oldest known symmetric cipher (Maps letter to numbers)
+- *Block Cipher Algorithms*: Operates on a fixed range of bytes rather than on a single character at a time.
+    - *DES*: Data Encryption Standard (Implemented by IBM and the behest of the NSA in 1974)
+        - Breaks its input up into eight-byte blocks (64-bits)
+        - Scrambles the input using an eight-byte key after the first permutation. The permuted output is combined with the key in a series of 16 rounds (*Feistel Function*)
+        - Series of permutations, rotations and XORS.
+        - *S boxes*: 6-bits of input become 4-bits of output in a fixed but not reversible (just with the key) way. This is what makes DES secure.
+        - Why XOR is used? (ex: 0101 (input) XOR 1100 (key) --> 1001 (output encoded). To get the original input, we take the encoded output and uses our key again: 1001 XOR 1100 --> 0101). XOR show us where bits are different. 
+        - Described using *big endians* convention.
+- *Cipher blocking chaining*: Preventing *replay attacks* (Get the encrypted message - *password, credit card* - and use it without decrypt).
+        - DES is safe, but it's possible to brute-force the key with a really powerful hardware. 3DES (triple DES) is impossible to crack, but it's slower (3x slower).
+        - 3DES has a 168-bit key.
+    - *AES*: Advanced Encryption Standard
+        - *Rijndel* Algorithm
+        - 128-, 192, 252-bit keys.
