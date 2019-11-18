@@ -62,11 +62,78 @@
         - Scrambles the input using an eight-byte key after the first permutation. The permuted output is combined with the key in a series of 16 rounds (*Feistel Function*)
         - Series of permutations, rotations and XORS.
         - *S boxes*: 6-bits of input become 4-bits of output in a fixed but not reversible (just with the key) way. This is what makes DES secure.
-        - Why XOR is used? (ex: 0101 (input) XOR 1100 (key) --> 1001 (output encoded). To get the original input, we take the encoded output and uses our key again: 1001 XOR 1100 --> 0101). XOR show us where bits are different. 
+        - Why XOR is used? (ex: 0101 (input) XOR 1100 (key) = 1001 (output encoded). To get the original input, we take the encoded output and uses our key again: 1001 XOR 1100 = 0101). XOR show us where bits are different. 
         - Described using *big endians* convention.
 - *Cipher blocking chaining*: Preventing *replay attacks* (Get the encrypted message - *password, credit card* - and use it without decrypt).
         - DES is safe, but it's possible to brute-force the key with a really powerful hardware. 3DES (triple DES) is impossible to crack, but it's slower (3x slower).
         - 3DES has a 168-bit key.
     - *AES*: Advanced Encryption Standard
         - *Rijndel* Algorithm
-        - 128-, 192, 252-bit keys.
+        - 128, 192, 252-bit keys.
+        - Given a 16-byte input, the AES key schedule computation needs to produce 176 bytes of output.
+        - *State*: 4x4 byte array. The bytes from input are split in chunks of four bytes. This chunks are placed vertically in the array.
+        - AES is widely supported. In fact, recent Intel chips include assembly-level AES instructions!
+    - Other block cipher algorithm: IDEA, RC2, blowfish, twofish, FEAL, LOKI, and Camelia.
+*Stream Cipher*: Technically is the same as Block Cipher. However, it operates on a block size of one byte.
+    - It concentrate on generating a secure stream of bytes whose length is the same as the plain-text. 
+    - Cryptographic security is generated from the keystream generation function.
+    - All of the security is in the key schedule generation.
+    - Only one stream sipher has been widely implemented in SSL: **RC4 algorithm**
+        - *RC4 algorithm*
+            - It's not an open standard like AES and DES are.
+            - Details of how RC4 works has never been officialy published.
+            - 256-byte key schedule is computed from the key.
+- A block cipher can be converted into a Stream Cipher.
+
+## Chapter 3 - Secure Key Exchange over an Insecure Medium with Public Key Cryptography
+- Challenge in applying private key algorithms is keeping the private key private.
+- Solution: *public-key cryptography* (asymmetric/public key)
+    - Two keys which are matematically related.
+    - An encrypt operation performed with one key can only be decrypted using the other one.
+    - *RSA algorithm*: the name comes from its inventors (Ron *Rivest*, Adi *Shamir*, and Leonard *Adleman*).
+        - Based entirely on properties of natural numbers.
+        - Relies on three numbers: e, n and d (e+n = public key; d = private key).
+        - Sender: Converts the message into a number (m) (m^e) % n = c ('e' can be 65.537 which is the smallest prime number and can be represented with two-bits)
+        - Receiver: Get the result and uses the private key to decrypt the message, (c^d) % n = message
+        - *The modulus operation - that is, the remainder left over after a division operation - is important to modern public-key cryptography and is likely going to remain important for the forseeable future.*
+        - Speed up cryptography operations: *Barrett and Montgomery reduction*.
+        - Part of the security of the RSA public key cryptosystem is the infeasibility of a brute-force attack.
+        - *Padding algorithms*: PKCS1.5 padding and OAEP.
+        - Procedure for generating RSA keypairs:
+            1) Select two random prime numbers *p* and *q*
+            2) Compute the modules n = pq.
+            3) Compute the totient function (p-1)(q-1)
+            4) Select a random public expoent e < phi(n)
+            5) Perform a modular inversion to compute the private expoent d: de % n = 1.
+        - SSL calls on you to select a symmetric-key algorithm, generate a key, encrypt that key using an RSA public key, and, after that key has been sent and acknowledged, to begin using the symmetric algorithm for subsequent communications.
+        -Although RSA can be used as a complete cryptography solution, its slow runtime limits its practical uses to simple encryption of keys to be used for symmetric cryptography.
+- *Elliptic Curve Cryptography*:
+    - Euclidean algorithm is an efficient way to discover the greatest common denominator (GCD) of two numbers (the largest number that divides both evenly)
+    - ECC an provide the same security with an 80-bit private key as RSA can provide with a 512-bit private key because every single bit (provably) contributes to the security of the cryptosystem.
+    - It's popular on bank industry.
+    - It's expect that ECC gain popularity int the coming years simply beause of its speed advantages over RSA and DH.
+
+## Chapter 4: Authenticating Communications Using Digital Signatures.
+- Public key cryptography is too slow for large blocks of information.
+- You're trying to prove that somebody with access to the private key generated the message.
+- Shortened representation of the message (*message digest*)that can be computed by both sides. Sender encrypts the message using the private key and the receiver can compute the same shortened representation and decrypt it using the public key.
+- Simplest form of a message digest is a *checksum* (but there is a huge vulnerability in this method).
+- *MD5 digest Algorithm*: Secure hashing algorithm.
+    - Specified in *RFC1321*
+    - Creator: Ron Rivest (The 'R' in the RSA algorithm).
+    - The goal is to reduce an arbitrarily sized input into an n-bit hash.
+    - Operated on 512-bit (64-byte) blocks of input. Each block is reduced to 128-bit (16 byte) hash.
+    - MD5 derive their security from their complexity.
+    - Vulnerability: *Birthday Paradox*. "The more computers I add to the attack, the faster I can get an answer".
+    - *"How to break MD5 and other hash functions"* - http://merlot.usc.edu/csac-s06/papers/Wang05a.pdf
+    - Real world MD5 collision - http://th.informatik.uni-mannheim.de/people/lucks/HashCollisions/
+    - MD5 is fairly popular. TLS mandates its use.
+- *SHA-1 digest Algorithm*: Increases the collision Resistance.
+    - *Secure Hash Algorithm*.
+    - Similar to MD5, but produces a 160-bit (20-byte) hash rather than 128-bit (16-byte) and deals with big-endian rather than little-endian.
+    - SHA-256, SHA-384, SHA-512 digest algorithm: More collision Resistance.
+- *HMAC Keyed-Hash Algorithm*
+    - Specified in *RFC 2104*.
+    - Include a secret in the hash. Both sides share a secret , which is combined with the hash in a secure way.
+    - *SSL* requires that every record first be HMAC'ed before being encrypted. SSL uses the HMAC function as a pseudo-random number generator.
+    - 
