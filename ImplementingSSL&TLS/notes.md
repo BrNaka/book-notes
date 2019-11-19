@@ -136,4 +136,24 @@
     - Specified in *RFC 2104*.
     - Include a secret in the hash. Both sides share a secret , which is combined with the hash in a secure way.
     - *SSL* requires that every record first be HMAC'ed before being encrypted. SSL uses the HMAC function as a pseudo-random number generator.
-    - 
+- *DSA*: Digital Signature Algorithm
+    - DSA is certified for SHA-1 and SHA-256.
+
+## Chapter 5: Creating a Network of Trust Using X.509 Certificates
+- Certificates are a holder for a public key.
+- The primary purpose of the certificates is to present the user agent with a public key that should then be used to encrypt a symmetric key that is subsequently used to protect the remainder of the connection's traffic.
+- Digital signatures are how certificates are authenticated and how you can determine whether or not to trust certificate.
+- *Man in the middle attack*: Solution adopted by SSL requires the use of a trusted intermediary (*Certificate Authoriy* (CA) signs the certificate).
+- Web brosers have a list of trusted CAs with their public keys.
+- Certificates include *validity period*.
+- *CRL - Certificate Revocation List*: CAs list of revoked certificates.
+- What are the informations included in certifications? 
+    - *Public Key*
+    - Domain name of the server
+    - *Serial ID*: unique within a CA.
+    - *Issuer*: uniquely identifies the CA.
+- SSL/TLS uses certificates defined and maintained by the *International Telecommunications Union (ITU)*. 
+- X.509 Certificates are specified using a syntax referred to as *Abstract Syntax Notation (ASN)*: Standard for public-key certificates and the format on which TLS 1.0 relies.
+- *PKI (Public Key Infrastructure)*: 
+    - Subject name, Issuer name, Signature, the extensions, and so on: Allows the receiver to verify authenticity of the certification.
+ 
