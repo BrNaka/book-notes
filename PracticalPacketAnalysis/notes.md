@@ -90,22 +90,22 @@
         - ARP request: "Howdy, everybody. My IP address is 192.168.0.101, and my MAC addresss is f2:f2:f2:f2:f2:f2. I need to send something to whoever has the IP address 192.168.0.1, but I don't know the hardware address. Will whoever has this IP adress please respond with your MAC address?"
         - ARP response: MAC address is sent to the requester.
         - Gratuitous ARP: Device's IP address can change. Gratuitous ARP packet is transmitted on the network to force any device that receives it to update its cache with the new IP-to-MAC address mapping. Changing a device's IP address will generate a gratuitous packet.
-    - *Internet Protocol (IP)*: Ipv4 is the workhorse of the communication process and is ultimately responsible for carrying data between devices, regardlesss of where the communication endpoints are located.
-        - Complex networks can consist of thousands of LANs connected through thousands of routers worldwide. The internet itself is a collections of millions of LANs and routers.
-        - *Network mask* (netmask): Determines the network portion and the host portion (ex: netmask 255.255.255.0. First 3 bytes determines the network and the last byte identify the host on the network).
-        - *Class Inter-Domain Routing (CIDR)* notation: 192.168.1.2 whose netmask is 255.255.255.0 can be writen as 192.168.1.2/24.
-        - *Time to Live*: The TTL value defines a period of time that can elapse or a maximum number of routers a packet can traverse before the packet is discarded for IPv4.
-        - *IP Fragmentation*: It's a feature of IP that permits reliable delivery of data across varying types of networks by splitting a data stream into smaller framents. It's based on *MTU* (Maximum transmission unit) size. Ethernet has a default MTU of 1500, which means that the maximum packet size that can be transmitted over an Ehernet network is 1500 bytes.
-    - *Internet Protocol Version 6 (IPv6)*
-        - It's written in eight groups of 2 bytes in hexadecimal notation. (ex: 1111:aaaa:2222:bbbb:3333:cccc:4444:dddd)
-        - IPv6 adddress has a network portion and a host portion (*network prefix* and *interface identifier*).
-        - This protocol provides a lot more efficiently than IPv4 in terms of routing packets to their destination and making effective use of address space.
-        - NDP (Neighbor Discovery Protocol): Neighbor solicitation.     
-        - Multicast communication: Only hosts that subscribe to a data stream will receive and process data.
-        - IPv6 addresses a very real problem, but its adoption has been slow because of the effort required to transition network infrastructure to it.
-    - *Internet Control Message Protocol (ICMP)*: It's the utility protocol of TCP/IP.
-        - It's responsible for providing information regarding the availability of devices, srevices, or routers on a TCP/IP network.
-        - Ping command uses ICMP to check if a device is reachable. Many of today's firewalls limit the ability of a device to respond to ICMP packets.
+- *Internet Protocol (IP)*: Ipv4 is the workhorse of the communication process and is ultimately responsible for carrying data between devices, regardlesss of where the communication endpoints are located.
+    - Complex networks can consist of thousands of LANs connected through thousands of routers worldwide. The internet itself is a collections of millions of LANs and routers.
+    - *Network mask* (netmask): Determines the network portion and the host portion (ex: netmask 255.255.255.0. First 3 bytes determines the network and the last byte identify the host on the network).
+    - *Class Inter-Domain Routing (CIDR)* notation: 192.168.1.2 whose netmask is 255.255.255.0 can be writen as 192.168.1.2/24.
+    - *Time to Live*: The TTL value defines a period of time that can elapse or a maximum number of routers a packet can traverse before the packet is discarded for IPv4.
+    - *IP Fragmentation*: It's a feature of IP that permits reliable delivery of data across varying types of networks by splitting a data stream into smaller framents. It's based on *MTU* (Maximum transmission unit) size. Ethernet has a default MTU of 1500, which means that the maximum packet size that can be transmitted over an Ehernet network is 1500 bytes.
+- *Internet Protocol Version 6 (IPv6)*
+    - It's written in eight groups of 2 bytes in hexadecimal notation. (ex: 1111:aaaa:2222:bbbb:3333:cccc:4444:dddd)
+    - IPv6 adddress has a network portion and a host portion (*network prefix* and *interface identifier*).
+    - This protocol provides a lot more efficiently than IPv4 in terms of routing packets to their destination and making effective use of address space.
+    - NDP (Neighbor Discovery Protocol): Neighbor solicitation.     
+    - Multicast communication: Only hosts that subscribe to a data stream will receive and process data.
+    - IPv6 addresses a very real problem, but its adoption has been slow because of the effort required to transition network infrastructure to it.
+- *Internet Control Message Protocol (ICMP)*: It's the utility protocol of TCP/IP.
+    - It's responsible for providing information regarding the availability of devices, srevices, or routers on a TCP/IP network.
+    - Ping command uses ICMP to check if a device is reachable. Many of today's firewalls limit the ability of a device to respond to ICMP packets.
 
 ## Chapter 8 - Transport Layer Protocols
 - *Transport Control Protocol (TCP)*: The goal is to provide end-to-end reliability for the delivery of data.
@@ -168,3 +168,31 @@
 - *The programmer was concerned about all of the mysterious components their application was dependent upon, but at the end of the day, their compicated data transfer that took hundreds of lines of code is still no more than FTP, TCP, and IP. It's crucial to remember that no matter how comples the issue at hand, it sill comes down to packets*.
 
 ## Chapter 11 - Fighting a Slow Network
+- Error-recovery and flow-control features
+- ICMP generates additional traffic
+- *TCP Retransmissions*: It is designed to combat packet loss.
+    - *Retransmission timer*: Responsible for maintaining a value called the *retransmission timeout (RTO)*. 
+    - *Round-trip timer (RTT)*: The time between the packet transmission and receipt of the ACK packet. 
+    - TCP retransmission feature is used by the transmitting device to detect and recover from packet loss.
+- *TCP duplicate acknowledgments*: Feature used by recipient device to detect and recover from packet loss.
+    - A duplicate ACK is a TCP packet sent from a recipient when that recipient receives packets that are out of order. Recipient host receives the duplicate ACK package and perform a *fast retransmission*.
+    - Selective ACK makes data loss recovery much more efficient.
+- *TCP Flow Control*:
+    - *Sliding-window mechanism*: Detect when a packet loss may occur and adjust the rate of data transmission to prevent it. Specify the amount of data to be transmitted.
+    - *Halting Data Flow with a Zero Window Notification*: A server may no longer process data sent from a client.      - Server send a packet that contains a window size of zero.
+      - Clients receives this packets, and halt the any data trasnmission or keep the connection to the server open with the transmission of *keep-alive packets*.
+
+## Packet Analysis For Security
+- A considerable amount of real world packet analysis is done for security porposes.
+- Subjects covered in this chapter:
+    - Network reconnaissance
+    - Malicious traffic redirection
+    - Common malware techniques
+- *footprinting*: Attacker perform in-depth research on the target system.
+    - *stealth scan* or a *half-open scan*: Attacker sends SYN packets.
+    - *Operating Systesm fingerprinting *: Passive and Active.
+        - Passive: Examine certain fields within packets sent from the target to determine the OS in use.
+        - Active: Attacker actively sends specially crafted packets to the target to elicit replies that will reveal the operating system on the target's machine. 
+    - DNS spoofing, SSL hijacking, ARP cache poisoning.
+    - If an attacker can see the packets associated with your communication, some type of malicious activity can result. This is one reason security professionals advocate for protecting data in transit through encryption.
+    - *Script obfuscation*: It's a common technique use by malware to evade detection and hide malicious content.  
