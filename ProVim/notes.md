@@ -6,3 +6,9 @@
 <div align="center">
    <img src="./images/capa.png" width="600px">
 </div>
+
+## Chapter 4 - Files
+
+- Commands
+    - ':e <Spance> <C-d>': List all files in the current directory.
+    - 
