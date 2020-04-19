@@ -101,3 +101,36 @@
 - Automating image builds with Dockerfile is a better idea.
 
 ### Chapter 8 - Build automation and advanced image considerations
+- A Dockerfile is a file that contains instructions for building an image.
+- Building images from Dockerfiles makes tasks like adding files to a container from your compiter simple one-line instructions.
+- Packaging GIT with a Dockerfile example:
+    FROM ubuntu:latest
+    MAINTAINER "dockerinaction@allingeek.com"
+    RUN apt-get install -y git
+    ENTRYPOINT ["git"]
+    - Build the image: "*docker build --tag ubuntu-git:auto .*" 
+    - *docker run --rm ubuntu-git:auto*
+- '--no-cache': This flag disable the use of the cache.
+- Docker instructions documentation: 'https://docks.docker.com/reference/builder/'
+- Best practice section in its documentation: 'http://docs.docker.com/reference/builder'
+- Dockerfile builds is that they simplify copying files from your computer into an image.
+- Docker instructions:
+    - ENV: It sets environment variables for an images similar to the --env flag on docker run or docker create.
+    - LABEL: It's used to define key/value pairs that are recorded as additional metadata for an image or container.
+    - WORKDIR: It sets the default working directory.
+    - EXPOSE: It creates a layer that opens TCP port 33333.
+    - ENTRYPOINT: Has two forms: the shell form and an exec form.
+    - CMD: It's closely related to the ENTRYPOINT instruction. They both take either shell or exec forms and are both used to start a process within a container.
+- Not all images contain applications. Some are build as platforms for downstream images.
+    - ONBUILD: It defines instructions to execute if the resulting image is used as a base for another build.
+    - Examples in the wild:
+        - https://registry.hub.docker.com/_/python/ 
+        - https://registry.hub.docker.com/_/golang/ 
+        - https://registry.hub.docker.com/_/node/ 
+- Initialization processes
+    - It's often appropriate to use an init-style system to launch, manage, restart, and shut down container processes like the init UNIX-based process.
+    - There are several open source init programs: SysV, Upstart, and systemd.
+- CAIID: Content Addressable Image Identifier.
+
+### Chapter 9 - Public and Private software distribution
+
