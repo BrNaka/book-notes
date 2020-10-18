@@ -20,3 +20,25 @@ It balances the capabilities of a low-level system language with some high-level
     - Go runtime automatically schedule the execution of goroutines against logical processors. Each logical processor is bound to a single OS thread.
     - They have minimal overhead, so it isn't uncommon to spawn tens of thousands of them.
   - *Channels* are data structures that enable sabe data communication between goroutines.
+    - Handle problems typically seen in programming languages that allow shared memory access.
+    - They provide a pattern that makes data safe from concurrent modifications.
+    - They enforce the pattern that only one goroutine should modify the data at any time.
+- *Go's type system*
+  - Object-oriented development, but without the traditional headaches.
+  - It uses a design pattern called composition. In Go, types are composed of smaller types
+  - You don't to declare that you are implementing an interface. The compiler does the work of determining wheter values of your types satisy the interfaces you're using.
+  - A Go interface typically represents just a single action.
+- *Memory management*
+  - Go has a modern garbage collector.
+
+### Chapter 2 - Quick Start
+- All code files in a folder must use the same package name, and it's common practice to name the package after the folder.
+- Packages defines a unit of compiled code, and each unit of code represents a package.
+- Go compiler won't let you delcare a package to be imported if it's not used.
+- The variable located outside the scope of any function is considered a package-level variable.
+- Variables that starts with capital letters are public to other packages. Variables that starts with lowercase variables are private to the current package.
+- All variables are initialized to their zero value. For numeric types, that value is 0; for strings it's an empty string; for Booleans it's false; and for pointers, the zero value is nil.
+- The ':=' operator both declare and initialize variables at the same time.
+- A good rule of thumb when declaring variables is to use the key-word 'var' when declaring variable that will be initialized to their zero value, and to use the short variable declaration operator when you're providing extra initialization or making a function call.
+- The keyword 'range' can be used with arrays, strings, slices, maps, and channels.
+- Use the keyword 'go' to launch and schedule foroutines to run concurrently.
