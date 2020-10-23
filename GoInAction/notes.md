@@ -42,3 +42,12 @@ It balances the capabilities of a low-level system language with some high-level
 - A good rule of thumb when declaring variables is to use the key-word 'var' when declaring variable that will be initialized to their zero value, and to use the short variable declaration operator when you're providing extra initialization or making a function call.
 - The keyword 'range' can be used with arrays, strings, slices, maps, and channels.
 - Use the keyword 'go' to launch and schedule foroutines to run concurrently.
+- The keyword 'defer' is used to schedule a function call to be executed right after a function returns.
+- Type _interface_ is a special type in Go and works with the reflection support that can be found in the reflect package.
+- Interfaces declare behavior that's required to be implemented by struct or named types to satisfy the interface.
+- When the interface has only one method, its name should end with the 'er' suffix.
+- An empty struct allocates zero bytes.
+- It's best practice to declare methods using pointer receivers, since many of the methods you implement need to manipulate the state of the value being used to make the method call.
+- Pointers are a way of sharing data across functions and goroutines.
+- concurrency and synchronization are acomplished by launching goroutines and using channels.
+- Interfaces in Go allow you to write generic code and frameworks. 
