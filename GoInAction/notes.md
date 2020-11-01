@@ -83,3 +83,44 @@ It balances the capabilities of a low-level system language with some high-level
   - _Gb_: It is a whole new class of build tool being developed by members of the Go community. Gb replaces the Go tooling workspace metaphor with a project-based approach. Gb project is not compatible with the Go tooling, including go get (_https://getgb.io_).
 
 ### Chapter 4 - Arrays, slices, and maps
+- Go has three different data structures that allow you to manage collections of data: _arrays_, _slices_, and _maps_. 
+- Arrays form the base data structure for both slices and maps.
+  - Fixed-length data type
+  - It contains contiguous block of elements of the same type.
+  - If you need more elements in the array, you need to create a new one with length needed and then copy the values from one array to the other.
+  - Only arrays of the same type can be assigned.
+  - You can copy multidimensional arrays into each other as long as they have the same type.
+  - Passing an array between functions can be an excpensive operation in terms of memory and performance.
+    - When you pass between functions, they're always passed by value. When your variable is an array, this means the entire array, regardless of this size, is copied and passed to the funtion.
+    - There's a better and more efficient way of doing this. You can pass a pointer to the array and only copy eight bytes, instead of eight megabytes of memory on the stack.
+- Slice is a data structure that provides a way for you to work with and manage collections of data.
+  - Slices are built around the concept of dynamic arrays that can grow and shrink as you see fit.
+  - Slices give you all the benefits of indexing, iteration, and garbage collection optimizations.
+  - They're three field data structures that contain the metadata Go needs to manipulate the underlying arrays: _pointer_, _length_, _capacity_
+  - _make_: It creates a slice. When you use _make_, one option you have is to specify the length and the capacity of the slice (ex: _slice := make([]string, 5)_)
+  - An idiomatic way of creating a slice is to use a slice literal
+    - _slice := []string { "Red", "Blue", "Green", "Yellow", "Pink" }_
+  - If you specify a value inside the [ ] operator, you're creating an array. If you don't specify a value, you're creating a slice.
+  - How to calculate the Length and Capacity of a slice:
+    - For _slice[i:j]_ with an underlying array of capacity _k_
+      - Length = j - i
+      - Capacity = k - i
+  - Slices are references.
+  - The _append_ operation is cleaver when growing the capacity of the underlying array. Capacity is always doubled when the existing capacity of the slice is under 1000 elements. Once the number of elements goes over 1000, the capacity is grown by a factor of 1.25, or 25%. This growth algorithm may change in the language over time.
+  - Detaching the new slice from its original source arrayu makes it safe to change.
+    - Ex: slice[2, 3, 3] => When capacity = length, force the creation of a new slice and do not mutate the original slice.
+  - The _cap_ and _len_ functions work with arrays, slices, and channels.
+  - Passing a slice between two functions requires nothing more than passing the slie by value. Since the size of a slice is small, it's cheap to copy and pass between functions.    - A sliice requires 24 bytes of memory. The pointer field requires 8 bytes, and the length and capacity fields requires 8 bytes respectively.
+    - Passing the 24 bytes between functions is fast and easy. This is the beauty of slices.
+- _Map_ data structures: It provides you with an unordered collection of key/value pairs.
+  - They are collections, and you can iterate over them just like you do with arrays and slices.
+  - _Unordered_ collections. Every iteration over a map could return a different order.
+  - The purpose of the hash function is to generate an index that evenly distributes key/values pairs across all available buckets.
+  - In the case if a Go map, a portion of the generated hash key, specifically the _low order bits_ (LOB), is used to select the bucket.
+  - Example: _dict := map[string]string { "Red": "#da1337", "Orange": "#e95a22" }_
+  - The map key can be a value from any built-in or struct type as long as the value can be used in an expression with the _==_ operator. Slices, functions, and sctruct types that contain slices can't be used as map keys. This will produce a compiler error.
+  - Testing if a map key exists is an important part of working with maps.
+  - When you index a map in Go, it will always return a value, even when the key doesn't exist. In this case, the zero value for the value's type is returned.
+  - Passing a map between two functions doesn't make a copy of the map (The reference is passed to the function)
+  - Maps are designed to be cheap, similar to slices. 
+  - Maps don't have a capacity or any restriction on growth.
