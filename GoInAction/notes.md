@@ -124,3 +124,33 @@ It balances the capabilities of a low-level system language with some high-level
   - Passing a map between two functions doesn't make a copy of the map (The reference is passed to the function)
   - Maps are designed to be cheap, similar to slices. 
   - Maps don't have a capacity or any restriction on growth.
+
+### Chapter 5 - Go's Type System
+- When the compiler knows the type information ahead of time, it can help to make sure that the program is working with values in a safe way.
+- There are two ways to declare a user-defined type in Go. The most common way is to use the keyword _struct_, which allows you to create a composite type.
+- The zero value would apply to all the different fields in the struct.
+- *Methods*
+  - Methods provide way to add nehavior to user-defined types. Methods are really functions that contain an extra parameter that's declared between the keyword _func_ and the function name.
+  
+  ```golang
+    // Sambple program to show how to declare methods and how the Go compiler supports them
+    package main
+
+    import (
+      "fmt"
+    )
+
+    // user defines a user in the program.
+    type user struct {
+      name  string
+      email string
+    }
+    
+    // notify implements a method with a value receiver.
+    func (u user) notify() {
+      fmt.Printf("Sending User Email To %s<%s>\n",
+        u.name,
+        u.email
+      )
+    }
+  ```
