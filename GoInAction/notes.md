@@ -133,7 +133,7 @@ It balances the capabilities of a low-level system language with some high-level
   - Methods provide way to add nehavior to user-defined types. Methods are really functions that contain an extra parameter that's declared between the keyword _func_ and the function name.
   
   ```golang
-    // Sambple program to show how to declare methods and how the Go compiler supports them
+    // Sample program to show how to declare methods and how the Go compiler supports them
     package main
 
     import (
@@ -153,4 +153,74 @@ It balances the capabilities of a low-level system language with some high-level
         u.email
       )
     }
+
+    // changeEmail implements a method  with a pointer receiver.
+    func (u *user) changeEmail(email string) {
+      u.email = email
+    }
+
+    // main is the entry point for the application.
+    func main() {
+      // Values of type user can be used to call methods declared with a value receiver.
+      bill := user { "Bill", "bill@email.com" }
+      bill.notify()
+
+      // Pointers of type user can also be used to call methods declared with a value receiver.
+      lisa := &user { "Lisa", "lisa@email.com" }
+      lisa.notify() // Go is doing (*lisa).notify() in the background
+
+      // Values of type user can be used to call methods declared with a pointer receiver.
+      bill.changeEmail("bill@newdomain.com")
+      bill.notify()i // Go is doing (&bill).notify() in the background
+
+      // Pointers of type user can be used to call methods declared with a pointer receiver.
+      lisa.changeEmail("lisa@comcast.com")
+      lisa.notify()
+    }
   ```
+  - The _receiver_ binds the function to the specified type. When a function has a receiver, that function is called a method. 
+    - There are two types of receivers in Go: _value_ receivers and _pointers_ receivers.
+      - _Value_ receiver: The method will always be operating against a copy of the value used to make the method call.
+  - Determining whether to use a value or pointer receiver can sometimes be confusing. There are some basic guidelines you can follow that come directly from the standard library. Ask the following questions:
+    - Does adding or removing something from a value of this type need to create a new value or mutate the existing one?
+      - If the answer is create a new value --> Value receivers
+      - If the answer is mutate the existing one --> Pointer receivers
+  - References types in Go are the set of slice, map, channel, interface, and function types.
+  - The compiler will only let you declare methods for user-defined types that are named.
+  - The decision to use a value or pointer receiver should not be based on whether the method is mutating the receiving value. The decision should be based on the nature of the type.
+ - *Interfaces*: Once a type implements an interface, an entire world of functionality can be opened up to values of that type.
+  - Interfaces are types that just declare behavior.
+  - When a user-defined type implements the set of methods declared by an interface type, values of the user-defined type can be assigned to values of the interface type.
+  - Interfaces values are two-word data structures.
+    - First word contains a pointer to an  internal table called an _iTable_, which contains type information about the stored value.
+    - The second word is a pointer to the stored value.
+  - Method sets defines the rules around interface compliance
+   - Why values of type user don't implement the interface when an interface is implemented with a pointer receiver?
+   - Method sets define the set of methods that are associated with values or pointers of a given type.
+   - The type of receiver used will determine whether a method is associated with a value, pointer, or both.
+   - It's not always possible to get the address of a value.
+   
+   ```golang
+    //Sample program to show how you can't always get the address of a value.
+    package main
+
+    import "fmt"
+
+    // duration is a type with a base type of int.
+    type duration int
+
+    // format pretty-prints the duration value.
+    func (d *duration) pretty() string {
+      return fmt.Sprintf("Duration: %d", *d)
+    } 
+
+    // main is the entry point for the application.
+    func main() {
+      duration(42).pretty()
+      // .listing46.go:17: cannot call pointer method on duration(42)
+      // .listing46.go:17: cannot take the address of duration(42)
+    }
+   ```
+  - *Type embedding*: Go allows you to take existing types and both extend and change their behavior. It's important to code reuse and for changing the behavior of an existing type.
+  - inner type promotion, the notify method can also be accessed directly from the ad variable.
+  - 
