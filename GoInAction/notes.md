@@ -223,4 +223,9 @@ It balances the capabilities of a low-level system language with some high-level
    ```
   - *Type embedding*: Go allows you to take existing types and both extend and change their behavior. It's important to code reuse and for changing the behavior of an existing type.
   - inner type promotion, the notify method can also be accessed directly from the ad variable.
-  - 
+*Exporting and unexporting identifiers*
+  - When an identifier starts with a lowercase letter, the identifier is unexported or unknown to code outside the package.
+  - When an identifier starts with an uppercase letter, it's exported or known to code outside the package.
+  - Expose private members through factory functions.
+
+### Chapter 6 - Concurrency
